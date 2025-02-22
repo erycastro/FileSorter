@@ -55,9 +55,13 @@ def process_images(input_folder, red_folder, blue_folder):
             else:
                 print(f"No predominant color in image {image_name}. Moving to next image.")
                 continue
-
-            # Defining the destination path
-            destination_path = os.path.join(destination_folder, image_name)
+            
+            #Checking if the image already exists in the destination folder
+            if os.path.exists(os.path.join(destination_folder, image_name)):
+                print(f"{image_name} already exists in {destination_folder}!\n")
+            else:
+                # Defining the destination path
+                destination_path = os.path.join(destination_folder, image_name)
 
             # Moving the image
             shutil.move(image_path, destination_path)
