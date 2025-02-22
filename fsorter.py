@@ -33,12 +33,17 @@ def process_images(input_folder, red_folder, blue_folder):
             hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
             # Defining the range of red and blue color in HSV
-            lower_red = np.array([0, 50, 50])
-            upper_red = np.array([10, 255, 255])
-            mask_red = cv2.inRange(hsv, lower_red, upper_red)
+            lower_red1 = np.array([0, 100, 100])       
+            upper_red1 = np.array([10, 255, 255])
+            lower_red2 = np.array([160, 100, 100])      
+            upper_red2 = np.array([180, 255, 255])
 
-            lower_blue = np.array([110, 50, 50])
-            upper_blue = np.array([130, 255, 255])
+            mask_red1 = cv2.inRange(hsv, lower_red1, upper_red1)
+            mask_red2 = cv2.inRange(hsv, lower_red2, upper_red2)
+            mask_red = cv2.bitwise_or(mask_red1, mask_red2)
+
+            lower_blue = np.array([100, 50, 50])       
+            upper_blue = np.array([140, 255, 255])     
             mask_blue = cv2.inRange(hsv, lower_blue, upper_blue)
 
             # Counting the number of pixels in each color
@@ -59,6 +64,7 @@ def process_images(input_folder, red_folder, blue_folder):
             #Checking if the image already exists in the destination folder
             if os.path.exists(os.path.join(destination_folder, image_name)):
                 print(f"{image_name} already exists in {destination_folder}!\n")
+                continue
             else:
                 # Defining the destination path
                 destination_path = os.path.join(destination_folder, image_name)
